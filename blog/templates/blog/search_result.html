@@ -1,0 +1,38 @@
+{%extends "./blog/base.html"%}
+{% load staticfiles %}
+{% block content %}
+ <script src="../../static/js/jquery.highlight-5.js"></script>
+ <script >
+ $(function () {
+ $('#highlight-plugin').removeHighlight().highlight('{{ query }}');
+});
+ </script>
+<h4>你搜索的关键字为：{{ query }}</h4>
+{% if res_mail %}
+<div id="highlight-plugin">
+    {% for mail in res_mail %}
+    <hr>
+    <h4><a href="/mail/{{ mail.id }}">{{ mail.subject }}</a></h4>
+    <h5>
+    <span class="glyphicon glyphicon-user" style="font-size:10px;"></span><small> {{mail.fromperson_re}} </small>
+	<span class="glyphicon glyphicon-time" style="font-size:10px;"></span><small> {{mail.timestamp|date:"n-d Y H:i:s"}} </small>
+	<span class="glyphicon glyphicon-eye-open" style="font-size:10px;"></span><small> {{mail.views}}</small>
+	<div style="float:right">
+	<span class="glyphicon glyphicon-paperclip" style="font-size:10px;"></span><small> {{mail.attach_num}} </small>
+	<span class="glyphicon glyphicon-comment" style="font-size:10px;"></span><small> {{mail.comment_num }} </small>
+	</div>
+	</h5>
+	{% if mail.content %}
+	<blockquote><pre>{{mail.content|truncatechars:100 }}</pre></blockquote>
+	{% else %}
+	<blockquote><pre>此邮件没有正文</pre></blockquote>
+	{%endif%}
+    {% endfor %}
+</div>
+{% else %}
+<hr>
+    <h4>Sorry,并没有找到任何邮件 O_o</h4>
+    <h5>搜索范围是邮件的标题和正文</h5>
+    <h4><small>暂时不支持多个词查找，去掉空格再试试</small></h4>
+{% endif %}
+{%endblock%}

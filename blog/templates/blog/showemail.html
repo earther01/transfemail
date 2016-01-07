@@ -1,0 +1,44 @@
+{%extends "./blog/base.html"%}
+{% load staticfiles %}
+{% block content %}
+<script >
+$('#element_id a').lightBox();
+</script>
+	<h3>{{ post.subject }}</h3>
+	<h5>
+	<span class="glyphicon glyphicon-user" style="font-size:10px;"></span><small> {{post.fromperson_re}} </small>
+	<span class="glyphicon glyphicon-time" style="font-size:10px;"></span><small> {{post.timestamp|date:"n-d Y H:i:s"}} </small>
+	<span class="glyphicon glyphicon-eye-open" style="font-size:10px;"></span><small> {{post.views}}</small></h5>
+	{% if post.content %}
+	<blockquote>
+	<pre>{{post.content}}</pre>
+	</blockquote>
+	{% else %}
+	<blockquote>
+	<pre>此邮件没有正文</pre>
+	</blockquote>
+	{%endif%}
+<!-- 	<h5 style=" text-align:right">
+	<span class="glyphicon glyphicon-paperclip" style="font-size:10px;"></span><small> {{post.attach_num}} </small>
+	<span class="glyphicon glyphicon-comment" style="font-size:10px;"></span><small> {{post.comment_num }} </small>
+	</h5> -->
+ 
+<!-- <div id="element_id"> 
+{% for pic in pic_type %}
+<a href="{{pic.attachfile}}"><img src="{{pic.attachfile}}"  class="img-rounded mailimg"  width="32%"</img></a>
+{% endfor %}
+</div> -->
+
+<div class="myattach">
+{% ifequal post.attach_num 0 %}
+{% else %}
+<p></p>
+<p><em>附件：</em></p>
+{% endifequal%}
+{% for attach in attachs %}
+<p><em><a href="{{attach.attachfile}}">{{ attach.filename }}</a> <small>(size:{{attach.filesize|filesizeformat}})</small></em></p>
+{% endfor %}
+</div>
+<hr>
+{% include "./blog/comments.html"%} 
+{%endblock%}

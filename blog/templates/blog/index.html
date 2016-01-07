@@ -1,0 +1,64 @@
+{%extends "./blog/base.html"%}
+{% load staticfiles %}
+{% block content %}
+
+{% for post in posts %}
+	<h3><a href="/mail/{{ post.id }}">{{ post.subject }}</a></h3>
+	<h5>
+	<span class="glyphicon glyphicon-user" style="font-size:10px;"></span><small> {{post.fromperson_re}} </small>
+	<span class="glyphicon glyphicon-time" style="font-size:10px;"></span><small> {{post.timestamp|date:"n-d Y H:i:s"}} </small>
+	<span class="glyphicon glyphicon-eye-open" style="font-size:10px;"></span><small> {{post.views}}</small></h5>
+	{% if post.content %}
+	<blockquote><pre>{{post.content|truncatechars:150 }}</pre></blockquote>
+	{% else %}
+	<blockquote><pre>此邮件没有正文</pre></blockquote>
+	{%endif%}
+	<h5 style=" text-align:right"><!-- <a href="/mail/{{ post.id }}" style="float:left"> 阅读全文>> </a> -->
+	<a style="float:left"  href="/mail/{{ post.id }}">阅读全文>> </a>
+	<span class="glyphicon glyphicon-paperclip" style="font-size:10px;"></span><small> {{post.attach_num}} </small>
+	<span class="glyphicon glyphicon-comment" style="font-size:10px;"></span><small> {{post.comment_num }} </small></h5>
+<!-- 	{%ifequal post.content '987654321' %}
+    <h3>并没有正文</h3>
+    {% else %}
+    <pre>{{post.content|truncatechars:200 }}</pre>
+	{%endifequal%}
+	<h5><a href="/mail/{{ post.id }}"> 阅读全文>> </a></h5> -->
+	<hr>
+{% endfor %}
+<!-- <p>
+{% if posts.has_previous %}
+  <a href="?page={{ posts.previous_page_number }}">&lt;&lt;Previous</a>
+  {% endif %}
+  {# posts.paginator.number_pages 返回总页数 #}
+  Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+{% if posts.has_next %}
+  <a href="?page={{ posts.next_page_number }}">Next&gt;&gt;</a>
+{% endif %}
+</p> -->
+<p>
+<div class="btn-group">
+  {# topics.paginator.page_range 这个函数返回包含一个所有页码数的 range 对象 #}
+  {# 即 range(1, topics.paginator.num_pages + 1) #}
+  {% if posts.has_previous %}
+  <!--  <a href="?page={{ posts.previous_page_number }}#posts">&lt;&lt;Previous</a>  -->
+  <a class="btn btn-primary" href="?page=1">首页</a>
+  <a class="btn btn-primary" href="?page={{ posts.previous_page_number }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  {% endif %}
+  {% if posts.has_other_pages %}
+  {% for page_number in posts.paginator.page_range_ext %}
+    {% ifequal page_number  posts.number %}
+    <a class="btn btn-primary active" href="?page={{ page_number }}">{{ page_number }}</a>
+    {% else %}
+   <!--    <a href="?page={{ page_number }}">{{ page_number }}</a> -->
+    <a class="btn btn-primary" href="?page={{ page_number }}">{{ page_number }}</a>
+    {% endifequal %}
+  {% endfor %}
+  {% if posts.has_next %}
+<!--   <a href="?page={{ posts.next_page_number }}">Next&gt;&gt;</a>  -->
+  <a class="btn btn-primary" href="?page={{ posts.next_page_number }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
+   <a class="btn btn-primary" href="?page={{posts.paginator.num_pages}}">尾页</a>
+{% endif %}
+{% endif %}
+</div>
+</p>
+{%endblock%}

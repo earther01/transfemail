@@ -1,0 +1,25 @@
+{%extends "./blog/base.html"%}
+{% load staticfiles %}
+{% block content %}
+<script language="javascript" type="text/javascript"> 
+var i = 2; 
+var intervalid; 
+intervalid = setInterval("fun()", 1000); 
+function fun() { 
+if (i == 0) { 
+location.href = "/mail/{{mid}}"; 
+clearInterval(intervalid); 
+} 
+document.getElementById("mes").innerHTML = i; 
+i--; 
+} 
+</script> 
+<div> 
+<h3>评论失败</h3>
+<h4>评论至少多于4个字符</h4>
+<div >  
+<p>将在 <span id="mes">3</span> 秒钟后返回评论页！</p> 
+<h4><a href="/mail/{{mid}}">立即跳转</a></h4>
+</div> 
+
+{%endblock%}

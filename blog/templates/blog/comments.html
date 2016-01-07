@@ -1,0 +1,97 @@
+
+{% load staticfiles %}
+<script  src="../../static/js/validator.js"> </script>
+<div class="comments">
+ <form class="form-horizontal" action="/comments/" method="post" data-toggle="validator" id="form1" name="form1" role="form">
+            {% csrf_token %}
+<!-- <tr><th></th><td><textarea cols="40" id="id_comments" name="comments" rows="10">
+</textarea></td></tr> -->
+ <div class="form-group">
+ <div>
+ <label for="newcomments" class="control-label"><h5>新的评论</h5></label>
+ </div>
+<textarea id="newcomments" name="newcomments" rows="4" width="80%" placeholder="请输入评论内容" class="form-control" required data-minlength="4" data-error="评论至少输入4个字符"></textarea>
+<!-- <input id="comments" name="comments"  placeholder="请输入评论内容" class="form-control" required data-minlength="4" data-error="至少输入4个字符" /> -->
+  <div class="help-block with-errors mysubmit"></div>
+            <input type="hidden" name="pid" id="pid" value="-1"/>
+            <input type="hidden" name="mid" id ="mid" value="{{post.id}}"/>
+            </div></div>
+            <div style="text-align:right" class="mysubmit-btn" ><button class="btn btn-primary" id="submit_btn" type="submit" name="submit">提交</button></div>   
+</form>
+<div class="comments">
+      <a name="blog_comments" id="comments"></a>
+      <div class="mycomment-title"><h5>评论({{ post.comment_num }})</h5></div>
+      {% ifequal post.comment_num 0 %}
+      {% else %}
+       <hr>
+        <div class="comments_body">
+            {% for comment in comments %}
+           <!--  {% ifequal comment.pid -1 %} -->
+            <div class="comment_container">
+              <!-- <div class="comment_id"><a href="{{ comment.user_url }}"><img src="/static/images/hp.jpg" width="42" height="42" /> --></a></div>
+              <div >
+                <span ><small>{{comment.floor}}. <em>来自{{comment.user_ip}}的匿名人士</em></small></span>
+                <span style="float:right"><small>{{ comment.timestamp|date:"Y-n-d h:i:s"}}</small></span>
+                <!-- <span class="reply_comment" id="{{ comment.id }}"><a href="#newcomment">回复</a></span> -->
+              </div>
+              <div id="comment_content" class="mycomment">{{ comment.user_content}}</div>
+              <hr>
+     <!--  {% for reply in replys %}
+      {% ifequal reply.pid comment.id%}
+                  <div class="comment_container">
+            <div class="comment_id"><a href="{{ comment.user_url }}"><img src="/static/images/hp.jpg" width="42" height="42" /> </a></div>
+              <div class="cmt_user_info">
+                <span class="li_small_2">来自{{reply.user_ip}}的匿名人士</span>
+                <span class="li_small_2">{{ reply.timestamp|date:"Y-m-d H:i"}}</span>
+                <span class="reply_comment" id="{{ comment.id }}"><a href="#newcomment">回复</a></span>
+              </div>
+              <div id="comment_content">回复{{reply.user_ip}}:{{reply.user_content}}</div>
+           
+      {% endifequal %}
+      {% endfor %}
+      {% endifequal %} -->
+            {% endfor %}
+      {% endifequal %}
+   <!--   <p>
+{% if comments.has_previous %}
+   <a href="?page={{ comments.previous_page_number }}#comments">&lt;&lt;Previous</a> 
+  <a class="btn  btn-lg" href="?page={{ comments.previous_page_number }}#comments"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  {% endif %}
+  {# comments.paginator.number_pages 返回总页数 #}
+  {% ifequal comments.paginator.num_pages 1 %}
+  {% else %}
+  Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+  {% endifequal %}
+{% if comments.has_next %}
+  <a href="?page={{ comments.next_page_number }}#comments">Next&gt;&gt;</a> 
+ <a class="btn  btn-lg" href="?page={{ comments.next_page_number }}#comments"><span class="glyphicon glyphicon-chevron-right"></span></a>
+{% endif %}
+</p> -->
+<p>
+<div class="btn-group">
+  {# topics.paginator.page_range 这个函数返回包含一个所有页码数的 range 对象 #}
+  {# 即 range(1, topics.paginator.num_pages + 1) #}
+  {% if comments.has_previous %}
+  <!--  <a href="?page={{ comments.previous_page_number }}#comments">&lt;&lt;Previous</a>  -->
+   <a class="btn btn-primary" href="?page=1#comments">首页</a>
+  <a class="btn btn-primary" href="?page={{ comments.previous_page_number }}#comments"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  {% endif %}
+  {% if comments.has_other_pages %}
+  {% for page_number in comments.paginator.page_range_ext %}
+    {% ifequal page_number  comments.number %}
+    <a class="btn btn-primary active" href="?page={{ page_number }}#comments">{{ page_number }}</a>
+    {% else %}
+   <!--    <a href="?page={{ page_number }}">{{ page_number }}</a> -->
+    <a class="btn btn-primary" href="?page={{ page_number }}#comments">{{ page_number }}</a>
+    {% endifequal %}
+  {% endfor %}
+  {% if comments.has_next %}
+<!--   <a href="?page={{ comments.next_page_number }}#comments">Next&gt;&gt;</a>  -->
+  <a class="btn btn-primary" href="?page={{ comments.next_page_number }}#comments"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  <a class="btn btn-primary" href="?page={{comments.paginator.num_pages}}#comments">尾页</a>
+{% endif %}
+{%endif%}
+</div>
+</p>
+      </div>
+          

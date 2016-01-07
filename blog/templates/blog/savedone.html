@@ -1,0 +1,51 @@
+{%extends "./blog/base.html"%}
+{% load staticfiles %}
+{% block content %}
+<script language="javascript" type="text/javascript"> 
+var i = 2; 
+var intervalid; 
+/*var percentage=0;
+var bargo;*/
+intervalid = setInterval("fun()", 1000); 
+/*bargo = setInterval("bar()", 100);*/
+function fun() { 
+if (i == 0) { 
+location.href = "/mail/{{mid}}"; 
+clearInterval(intervalid); 
+} 
+document.getElementById("mes").innerHTML = i; 
+i--; 
+}
+/*function bar(){
+
+	$('#bar').css('width',  percentage*5+"%");
+	percentage++;
+	if(percentage==20){
+		clearInterval(bargo); 
+	}
+}*/
+
+</script> 
+
+<script>
+$({property: 0}).animate({property: 100}, {
+                duration: 2000,
+                step: function() {
+                    var percentage = Math.round(this.property);
+
+                    $('#bar').css('width',  percentage+"%");
+                }
+});
+</script>
+<div> 
+<h3>评论成功！</h3> 
+<div >  
+<p>将在 <span id="mes">3</span> 秒钟后返回评论页！</p> 
+<h4><a href="/mail/{{mid}}">立即跳转</a></h4>
+</div> 
+<div class="progress">
+   <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+      aria-valuemin="0" aria-valuemax="100" id="bar" style="width: 0%;">
+   </div>
+</div>
+{%endblock%}
