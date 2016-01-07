@@ -24,11 +24,11 @@ white_list=['liukp@njupt.edu.cn','dzky@njupt.edu.cn','liukp@njupt.edu.cn','59105
 
 if __name__ == '__main__':
         M = poplib.POP3('pop.163.com')
-        M.user('dzkxygcxyyjs@163.com')  
-        M.pass_('bmncvurpomtkjxot')
+        M.user('sample@163.com')  
+        M.pass_('1234567')
         # M = poplib.POP3('pop.yeah.net')
-        # M.user('pythontest123@yeah.net')
-        # M.pass_('btwgmycenzxkajim')
+        # M.user('sample@yeah.net')
+        # M.pass_('1234')
         #打印有多少封信  
         numMessages = len(M.list()[1])  
         #print 'num of messages', numMessages  
