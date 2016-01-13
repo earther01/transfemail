@@ -19,7 +19,7 @@ logSpamMail = 0
 logReceiveMail = 0
 logMailSubject = []
 
-white_list=['liukp@njupt.edu.cn','dzky@njupt.edu.cn','liukp@njupt.edu.cn','591055016@qq.com','15250998911@163.com','15250998911@163.com']
+white_list=[]
 
 
 if __name__ == '__main__':
